@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حكاية اسم مدرسة السادات الثانوية - المشروع السينمائي المتكامل</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', 'Tahoma', Arial, sans-serif;
+        }
+
+        body {
+            background-color: #0b0f19;
+            color: #f0f6fc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 15px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        header h1 {
+            color: #58a6ff;
+            font-size: 2.3rem;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            color: #8b949e;
+            font-size: 1.1rem;
+        }
+
+        .start-project-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: 0.2s;
+            box-shadow: 0 4px 15px rgba(35, 134, 54, 0.4);
+        }
+
+        .start-project-btn:hover {
+            background-color: #2ea043;
+            transform: scale(1.03);
+        }
+
+        .presentation-container {
+            display: none;
+            width: 100%;
+            max-width: 950px;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .presentation-active .presentation-container {
+            display: flex;
+        }
+
+        .presentation-active header, 
+        .presentation-active footer {
+            display: none !important;
+        }
+
+        .scene-card {
+            background-color: #161b22;
+            border: 2px solid #30363d;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scene-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #21262d;
+            padding-bottom: 10px;
+        }
+
+        .scene-num {
+            background-color: #238636;
+            color: #ffffff;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .scene-time {
+            color: #8b949e;
+            font-size: 1rem;
+        }
+
+        .scene-image-box {
+            width: 100%;
+            min-height: 240px;
+            background-color: #0d1117;
+            border: 2px dashed #58a6ff;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scene-image-box img {
+            width: 100%;
+            max-height: 280px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        .image-box-label {
+            color: #58a6ff;
+            font-weight: bold;
+            font-size: 1.05rem;
+            margin-bottom: 5px;
+        }
+
+        .image-box-details {
+            color: #f0883e;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .upload-btn {
+            background-color: #21262d;
+            color: #58a6ff;
+            border: 1px solid #30363d;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+
+        .upload-btn:hover {
+            background-color: #30363d;
+            color: #ffffff;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .scene-speech-box {
+            background-color: #0d1117;
+            border-right: 6px solid #238636;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .speaker-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .speaker-name {
+            color: #58a6ff;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .speak-btn {
+            background-color: #238636;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .speak-btn:hover {
+            background-color: #2ea043;
+        }
+
+        .spoken-text {
+            color: #f0f6fc;
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        /* تصميم شاشة الختام (الاعتمادات) */
+        .credits-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .credits-top {
+            font-size: 1.25rem;
+            color: #58a6ff;
+            font-weight: bold;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 12px;
+            width: 100%;
+        }
+
+        .credits-bottom {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .credit-box {
+            background-color: #1f242c;
+            border: 1px solid #30363d;
+            padding: 15px;
+            border-radius: 8px;
+            width: 48%;
+            text-align: center;
+        }
+
+        .credit-title {
+            color: #8b949e;
+            font-size: 0.95rem;
+            margin-bottom: 5px;
+        }
+
+        .credit-name {
+            color: #f0883e;
+            font-size: 1.15rem;
+            font-weight: bold;
+        }
+
+        .presentation-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #161b22;
+            padding: 15px 25px;
+            border-radius: 12px;
+            border: 1px solid #30363d;
+        }
+
+        .control-btn {
+            background-color: #1f6feb;
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .control-btn:hover {
+            background-color: #388bfd;
+        }
+
+        .control-btn:disabled {
+            background-color: #21262d;
+            color: #8b949e;
+            cursor: not-allowed;
+        }
+
+        .exit-btn {
+            background-color: #da3633;
+        }
+        .exit-btn:hover {
+            background-color: #f85149;
+        }
+
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body id="main-body">
+
+    <header id="main-header">
+        <h1>حكاية اسم مدرسة السادات الثانوية</h1>
+        <p>المشروع السينمائي المتكامل - عرض شاشة كاملة (Full Screen)</p>
+        <button class="start-project-btn" onclick="startProject()">🎥 ابدأ العرض السينمائي الكامل</button>
+    </header>
+
+    <div class="presentation-container" id="presentation-container">
+        <div id="active-scene-slot"></div>
+
+        <div class="presentation-controls">
+            <button class="control-btn" id="prev-btn" onclick="changeSlide(-1)">◀ المشهد السابق</button>
+            <button class="control-btn exit-btn" onclick="exitProject()">✕ إنهاء العرض</button>
+            <button class="control-btn" id="next-btn" onclick="changeSlide(1)">المشهد التالي ▶</button>
+        </div>
+    </div>
+
+    <footer id="main-footer">
+        <p>مدرسة السادات الثانوية بنين – السنبلاوين.</p>
+    </footer>
+
+    <script>
+        const scenesData = [
+            { id: 1, speaker: "الطالب", text: "«يا مستر سيد... هو مدرستنا اتسمّت باسم السادات ليه؟»", imgReq: "صورة الطالب + صورة مستر سيد + صورة واجهة مدرسة السادات الثانوية بنين" },
+            { id: 2, speaker: "مستر سيد", text: "«سؤال جميل يا بطل... إنت تعرف مين أنور السادات؟»", imgReq: "صورة الطالب + صورة مستر سيد" },
+            { id: 3, speaker: "الطالب", text: "«أعرف إنه كان رئيس مصر... بس مش عارف عمل إيه لمصر.»", imgReq: "صورة الطالب + صورة مستر سيد" },
+            { id: 4, speaker: "مستر سيد", text: "«طيب... خلينا نخلي صاحب الحكاية نفسه يحكيلك.»", imgReq: "صورة الطالب + صورة مستر سيد + صورة الرئيس أنور السادات" },
+            { id: 5, speaker: "السادات", text: "«أنا محمد أنور السادات... وُلدت عام 1918.»", imgReq: "صورة الرئيس أنور السادات + صورة الطالب" },
+            { id: 6, speaker: "السادات", text: "«كنت واحدًا من رجال ثورة 23 يوليو 1952.»", imgReq: "صورة الرئيس أنور السادات + صور رمزية لثورة 23 يوليو" },
+            { id: 7, speaker: "السادات", text: "«وبعد وفاة الرئيس جمال عبد الناصر... توليت رئاسة مصر عام 1970.»", imgReq: "صورة الرئيس أنور السادات + صورة الطالب" },
+            { id: 8, speaker: "السادات", text: "«وكانت حرب أكتوبر عام 1973 من أهم المحطات في تاريخ مصر.»", imgReq: "صورة الرئيس أنور السادات + صور حرب أكتوبر 1973" },
+            { id: 9, speaker: "مستر سيد", text: "«الجيش المصري عبر قناة السويس... وبدأ معركة استعادة الأرض والكرامة.»", imgReq: "صورة مستر سيد + صور الجيش المصري وعبور قناة السويس" },
+            { id: 10, speaker: "السادات", text: "«وبعد حرب أكتوبر... اتجهت مصر إلى طريق المفاوضات والسلام.»", imgReq: "صورة الرئيس أنور السادات + صور السلام والمفاوضات" },
+            { id: 11, speaker: "السادات", text: "«وفي عام 1979... وُقّعت معاهدة السلام المصرية الإسرائيلية.»", imgReq: "صورة الرئيس أنور السادات + مشهد توقيع معاهدة السلام" },
+            { id: 12, speaker: "الطالب", text: "«دلوقتي فهمت ليه اسم السادات مهم في تاريخ مصر.»", imgReq: "صورة الطالب + صورة مستر سيد + واجهة المدرسة" },
+            { id: 13, speaker: "الطالب", text: "«بس ليه مدرستنا تحديدًا اتسمّت باسمه؟»", imgReq: "صورة الطالب + صورة مستر سيد" },
+            { id: 14, speaker: "مستر سيد", text: "«لأن اسم السادات ارتبط بمرحلة مهمة جدًا من تاريخ مصر... خصوصًا حرب أكتوبر والسلام.»", imgReq: "صورة مستر سيد + واجهة مدرسة السادات الثانوية بنين" },
+            { id: 15, speaker: "السادات", text: "«وتذكر يا بني... أسماء مدارسنا ومؤسساتنا ليست مجرد أسماء.»", imgReq: "صورة الرئيس أنور السادات + صورة الطالب" },
+            { id: 16, speaker: "السادات", text: "«هي جزء من ذاكرة الوطن وتاريخه... والأهم أن تتعلموا من التاريخ.»", imgReq: "صورة السادات + صورة الطالب + العلم المصري" },
+            { id: 17, speaker: "الطالب", text: "«يعني اسم مدرستنا مرتبط بتاريخ مصر... وبشخصية مهمة في تاريخها.»", imgReq: "صورة الطالب + صورة مستر سيد + واجهة المدرسة" },
+            { id: 18, speaker: "مستر أشرف", text: "«ومدرستنا هتفضل دايمًا تزرع في أبنائها حب الوطن والانتماء لمصر.»", imgReq: "صورة مستر أشرف + الطالب + مستر سيد + السادات + العلم المصري" },
+            { id: 19, speaker: "الجميع (كلام جماعي)", text: "«تحيا مصر!»", imgReq: "جميع الشخصيات (الطالب، مستر سيد، مستر أشرف، السادات) + العلم المصري" },
+            { id: 20, speaker: "النهاية", text: "مدرسة السادات الثانوية بنين – السنبلاوين\n«نعرف تاريخنا... لنصنع مستقبلنا.»", imgReq: "صورة واجهة مدرسة السادات الثانوية بنين + العلم المصري (بدون أشخاص)" },
+            { id: 21, speaker: "فريق العمل والإدارة", text: "فكرة وتصميم: سالم حسين (أخصائي تطوير تكنولوجي)\nوكيلة المدرسة: منى محمود رجال\nمدير المدرسة: أشرف عبد الباسط السيد", imgReq: "شاشة الاعتمادات الرسمية وخاتمة المشروع" }
+        ];
+
+        let currentSlideIndex = 0;
+        const uploadedImages = {};
+
+        function startProject() {
+            document.body.classList.add('presentation-active');
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(err => {});
+            }
+            renderCurrentSlide();
+        }
+
+        function exitProject() {
+            document.body.classList.remove('presentation-active');
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(err => {});
+            }
+        }
+
+        function renderCurrentSlide() {
+            const scene = scenesData[currentSlideIndex];
+            const slot = document.getElementById('active-scene-slot');
+            
+            if (scene.id === 21) {
+                // عرض شاشة الاعتمادات الخاصة بالنهاية (المشهد 21)
+                slot.innerHTML = `
+                    <div class="scene-card" style="border-color: #238636;">
+                        <div class="scene-header">
+                            <span class="scene-num" style="background-color: #1f6feb;">شاشة الختام والاعتمادات</span>
+                            <span class="scene-time">النهاية الرسمية</span>
+                        </div>
+                        
+                        <div class="credits-container">
+                            <div class="credits-top">
+                                💡 فكرة وتصميم: <span style="color: #f0883e;">السيد سالم حسين</span> (أخصائي تطوير تكنولوجي)
+                            </div>
+                            <div class="credits-bottom">
+                                <div class="credit-box">
+                                    <div class="credit-title">وكيلة المدرسة</div>
+                                    <div class="credit-name">منى محمود رجال</div>
+                                </div>
+                                <div class="credit-box">
+                                    <div class="credit-title">مدير المدرسة</div>
+                                    <div class="credit-name">أشرف عبد الباسط السيد</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="scene-speech-box" style="text-align: center;">
+                            <button class="speak-btn" style="margin: 0 auto;" onclick="speakArabicVoice('فكرة وتصميم سالم حسين أخصائي تطوير تكنولوجي. وكيلة المدرسة منى محمود رجال. مدير المدرسة أشرف عبد الباسط السيد.')">🔊 استمع لكلمات الختام</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const savedImg = uploadedImages[scene.id] || '';
+                const imgDisplay = savedImg ? 'block' : 'none';
+                const placeholderDisplay = savedImg ? 'none' : 'flex';
+
+                slot.innerHTML = `
+                    <div class="scene-card" style="${scene.id === 20 ? 'border-color: #238636;' : ''}">
+                        <div class="scene-header">
+                            <span class="scene-num" style="${scene.id === 20 ? 'background-color: #1f6feb;' : ''}">${scene.id === 20 ? 'المشهد 20 (النهاية)' : 'المشهد ' + scene.id} (من 21)</span>
+                            <span class="scene-time">6 ثوانٍ</span>
+                        </div>
+                        
+                        <div class="scene-image-box">
+                            <img id="img-preview-${scene.id}" src="${savedImg}" alt="معاينة الصورة" style="display: ${imgDisplay};">
+                            <div id="placeholder-content-${scene.id}" style="display: ${placeholderDisplay}; flex-direction: column; align-items: center;">
+                                <span class="image-box-label">📸 مربع الصورة المطلوبة</span>
+                                <span class="image-box-details">${scene.imgReq}</span>
+                            </div>
+                            <label class="upload-btn">
+                                📁 اختر صورة المشهد
+                                <input type="file" accept="image/*" onchange="loadSceneImage(event, ${scene.id})">
+                            </label>
+                        </div>
+
+                        <div class="scene-speech-box">
+                            <div class="speaker-info">
+                                <span class="speaker-name">${scene.speaker}:</span>
+                                <button class="speak-btn" onclick="speakArabicVoice('${scene.text.replace(/'/g, "\\'")}')">🔊 استمع للحوار (صوت رجل)</button>
+                            </div>
+                            <span class="spoken-text">${scene.text.replace(/\n/g, '<br>')}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('prev-btn').disabled = (currentSlideIndex === 0);
+            document.getElementById('next-btn').disabled = (currentSlideIndex === scenesData.length - 1);
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            if (currentSlideIndex < 0) currentSlideIndex = 0;
+            if (currentSlideIndex >= scenesData.length) currentSlideIndex = scenesData.length - 1;
+            renderCurrentSlide();
+        }
+
+        function loadSceneImage(event, id) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadedImages[id] = e.target.result;
+                    const img = document.getElementById(`img-preview-${id}`);
+                    const placeholder = document.getElementById(`placeholder-content-${id}`);
+                    if(img && placeholder) {
+                        img.src = e.target.result;
+                        img.style.display = 'block';
+                        placeholder.style.display = 'none';
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function speakArabicVoice(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const cleanText = text.replace(/[«»()]/g, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.9;
+                utterance.pitch = 0.75;
+
+                const voices = window.speechSynthesis.getVoices();
+                const arabicVoices = voices.filter(v => v.lang.startsWith('ar'));
+                if (arabicVoices.length > 0) {
+                    const maleVoice = arabicVoices.find(v => v.name.toLowerCase().includes('male') || v.name.toLowerCase().includes('tarik') || v.name.toLowerCase().includes('hamed') || v.name.toLowerCase().includes('naayf'));
+                    utterance.voice = maleVoice || arabicVoices[0];
+                }
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert('عذراً، متصفحك لا يدعم خاصية القراءة الصوتية.');
+            }
+        }
+
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+    </script>
+</body>
+</html>
